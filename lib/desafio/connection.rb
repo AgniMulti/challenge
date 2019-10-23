@@ -1,80 +1,38 @@
 require 'sawyer'
-require 'octokit/authentication'
-module Octokit
+require 'Desafio/authentication'
+module Desafio
 
-  # Network layer for API clients.
+  # Camada de Network 
   module Connection
 
-    include Octokit::Authentication
+    include Desafio::Authentication
 
-    # Header keys that can be passed in options hash to {#get},{#head}
     CONVENIENCE_HEADERS = Set.new([:accept, :content_type])
 
-    # Make a HTTP GET request
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Query and header params for request
-    # @return [Sawyer::Resource]
     def get(url, options = {})
       request :get, url, parse_query_and_convenience_headers(options)
     end
 
-    # Make a HTTP POST request
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Body and header params for request
-    # @return [Sawyer::Resource]
     def post(url, options = {})
       request :post, url, options
     end
 
-    # Make a HTTP PUT request
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Body and header params for request
-    # @return [Sawyer::Resource]
     def put(url, options = {})
       request :put, url, options
     end
 
-    # Make a HTTP PATCH request
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Body and header params for request
-    # @return [Sawyer::Resource]
     def patch(url, options = {})
       request :patch, url, options
     end
 
-    # Make a HTTP DELETE request
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Query and header params for request
-    # @return [Sawyer::Resource]
     def delete(url, options = {})
       request :delete, url, options
     end
 
-    # Make a HTTP HEAD request
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Query and header params for request
-    # @return [Sawyer::Resource]
     def head(url, options = {})
       request :head, url, parse_query_and_convenience_headers(options)
     end
 
-    # Make one or more HTTP GET requests, optionally fetching
-    # the next page of results from URL in Link response header based
-    # on value in {#auto_paginate}.
-    #
-    # @param url [String] The path, relative to {#api_endpoint}
-    # @param options [Hash] Query and header params for request
-    # @param block [Block] Block to perform the data concatination of the
-    #   multiple requests. The block is called with two parameters, the first
-    #   contains the contents of the requests so far and the second parameter
-    #   contains the latest response.
-    # @return [Sawyer::Resource]
     def paginate(url, options = {}, &block)
       opts = parse_query_and_convenience_headers(options)
       if @auto_paginate || @per_page
@@ -98,9 +56,6 @@ module Octokit
       data
     end
 
-    # Hypermedia agent for the GitHub API
-    #
-    # @return [Sawyer::Agent]
     def agent
       @agent ||= Sawyer::Agent.new(endpoint, sawyer_options) do |http|
         http.headers[:accept] = default_media_type
@@ -118,21 +73,14 @@ module Octokit
       end
     end
 
-    # Fetch the root resource for the API
-    #
-    # @return [Sawyer::Resource]
     def root
       get "/"
     end
 
-    # Response for last HTTP request
-    #
-    # @return [Sawyer::Response]
     def last_response
       @last_response if defined? @last_response
     end
-
-    protected
+    
 
     def endpoint
       api_endpoint
@@ -157,13 +105,10 @@ module Octokit
       response.data
     end
 
-    # Executes the request, checking if it was successful
-    #
-    # @return [Boolean] True on success, false otherwise
     def boolean_from_response(method, path, options = {})
       request(method, path, options)
       @last_response.status == 204
-    rescue Octokit::NotFound
+    rescue Desafio::NotFound
       false
     end
 
