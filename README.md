@@ -25,14 +25,14 @@ Requisitos:
 
 Descrição da solução:
 
-Será feito uso do Desafio - Ruby toolkit for the GitHub API.
+Será feito uso do Octokit - Ruby toolkit for the GitHub API.
 
 Instalação via Rubygems:
 
-gem install Desafio
-gem "Desafio", "~> 4.0"
+gem install Octokit
+gem "Octokit", "~> 4.0"
 
 Para usar a library no Ruby:
-require 'Desafio'
+require 'Octokit'
 
-mais info > http://Desafio.github.io/Desafio.rb/Desafio/Client.html
+mais info > http://OctOctokit.github.Octokit/Octokit.rb/Octokit/Client.html
