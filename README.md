@@ -23,3 +23,16 @@ Requisitos:
 ** Quantidade de forks;
 ** Nome do autor;
 
+Descrição da solução:
+
+Será feito uso do Octokit - Ruby toolkit for the GitHub API.
+
+Instalação via Rubygems:
+
+gem install octokit
+gem "octokit", "~> 4.0"
+
+Para usar a library no Ruby:
+require 'octokit'
+
+mais info > http://octokit.github.io/octokit.rb/Octokit/Client.html
